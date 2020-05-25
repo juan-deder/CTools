@@ -23,6 +23,7 @@ class CreateContentsTable extends Migration
             $table->string('location');
             $table->foreignId('grid_id')->constrained();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

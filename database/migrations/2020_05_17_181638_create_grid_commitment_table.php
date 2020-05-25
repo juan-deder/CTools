@@ -19,6 +19,7 @@ class CreateGridCommitmentTable extends Migration
             $table->set('roles', ['creator', 'approver'])->default('creator');
             $table->unique(['grid_id', 'user_id']);
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

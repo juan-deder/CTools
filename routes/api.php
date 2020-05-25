@@ -27,5 +27,3 @@ Route::namespace('Auth')->group(function () {
 });
 
 Route::get('grids', function () { return factory(\App\User::class, 3)->make(); })->middleware('auth');
-
-

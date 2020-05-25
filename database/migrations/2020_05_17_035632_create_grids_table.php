@@ -17,6 +17,7 @@ class CreateGridsTable extends Migration
             $table->id();
             $table->string('org_name');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

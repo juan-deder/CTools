@@ -1956,30 +1956,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {
-    return {
-      csrf_token: null
-    };
-  },
   methods: {
-    login: function login() {
-      axios.post('api/login', {
-        email: 'q@q',
-        password: 'qwerqwer'
-      }).then(function (response) {
-        return console.log(response);
-      });
-    },
     user: function user() {
       axios.get('api/user').then(function (response) {
-        return console.log(response);
-      });
-    },
-    logout: function logout() {
-      axios.post('api/logout').then(function (response) {
         return console.log(response);
       });
     }
@@ -2530,34 +2510,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c(
-      "a",
-      {
-        attrs: { href: "" },
-        on: {
-          click: function($event) {
-            $event.preventDefault()
-            return _vm.login()
-          }
-        }
-      },
-      [_vm._v("Login")]
-    ),
-    _vm._v(" "),
-    _c(
-      "a",
-      {
-        attrs: { href: "" },
-        on: {
-          click: function($event) {
-            $event.preventDefault()
-            return _vm.logout()
-          }
-        }
-      },
-      [_vm._v("Logout")]
-    ),
-    _vm._v(" "),
     _c(
       "a",
       {
@@ -17688,13 +17640,43 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#app',
   router: new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"](_routes__WEBPACK_IMPORTED_MODULE_3__["default"]),
-  csrf_token: null,
+  data: {
+    user: null
+  },
   created: function created() {
-    var _this = this;
+    axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('sanctum/csrf-cookie');
+    this.getUser();
+  },
+  methods: {
+    getUser: function getUser() {
+      var _this = this;
 
-    if (!this.csrf_token) return axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('sanctum/csrf-cookie').then(function (response) {
-      _this.token = response.data;
-    });
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('api/user').then(function (_ref) {
+        var data = _ref.data;
+        return _this.user = data;
+      })["catch"](function (error) {
+        return _this.user = null;
+      });
+    },
+    login: function login() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('api/login', {
+        email: 'q@q',
+        password: 'qwerqwer'
+      }).then(function (response) {
+        return _this2.getUser();
+      })["catch"](function (error) {
+        _this2.user = null;
+      });
+    },
+    logout: function logout() {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.post('api/logout').then(function (response) {
+        return _this3.user = null;
+      });
+    }
   }
 });
 
