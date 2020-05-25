@@ -1,12 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import axios from 'axios'
-import DashboardPlugin from '@/plugins/blackDashboard'
 
 window.axios = axios
 
 Vue.use(VueRouter)
-Vue.use(DashboardPlugin)
 
 import routes from './routes'
 
