@@ -17,7 +17,7 @@ const app = new Vue({
     data: {
         user: null,
 
-        registerDialog: false,
+        registerDialog: true,
         validRegister: null,
         registerLoading: false,
         registerPassVisible: false,
@@ -53,8 +53,8 @@ const app = new Vue({
         loginPassRules: [v => !!v || 'Contraseña requerida'],
     },
 
-    created() {
-        axios.get('sanctum/csrf-cookie')
+        created() {
+            axios.get('sanctum/csrf-cookie')
 
         this.getUser()
     },
@@ -66,6 +66,20 @@ const app = new Vue({
                 return 'No coincide'
 
             return null
+        },
+
+        userInitials () {
+            return this.user.name.split(' ').map(name => name[0]).slice(0, 2).join('')
+        },
+
+        avatarColor () {
+            // User initials between AA and ZZ. weight: added value of the initials, A representing 0, and so on
+            let weight = this.userInitials.split('')
+                .reduce((total, initial) => total + initial.charCodeAt(0) - 65, 0)
+
+            let decimal = Math.round(weight / 50 * 16777215) // 16⁶ - 1
+
+            return '#' + decimal.toString(16).padStart(6, '0')
         }
     },
 
@@ -84,7 +98,7 @@ const app = new Vue({
                     .then(response => {
                         this.getUser()
                         this.$refs.registerForm.reset()
-                        this.registerDialog = null
+                        this.registerDialog = false
                     })
                     .catch(error => {
                         this.registerFields.password = this.registerFields.password_confirmation = null

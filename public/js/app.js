@@ -1924,6 +1924,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -20163,54 +20182,94 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "grids fill-height" }, [
-    !this.$root.user
-      ? _c(
-          "div",
-          { staticClass: "fill-height d-flex flex-column justify-center" },
-          [
+  return _c(
+    "div",
+    { staticClass: "fill-height" },
+    [
+      !this.$root.user
+        ? _c(
+            "div",
+            { staticClass: "fill-height d-flex flex-column justify-center" },
+            [
+              _c(
+                "p",
+                { staticClass: "text-center" },
+                [
+                  _c("v-icon", { attrs: { size: "200" } }, [
+                    _vm._v("mdi-google-controller-off")
+                  ]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    { staticClass: "text--secondary font-weight-black" },
+                    [_vm._v("No disponible")]
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-alert",
+                {
+                  staticClass: "mx-auto pr-10",
+                  attrs: {
+                    icon: "mdi-exclamation-thick",
+                    prominent: "",
+                    border: "right",
+                    "max-width": "750px",
+                    "colored-border": "",
+                    color: "red",
+                    elevation: "4"
+                  }
+                },
+                [
+                  _vm._v("\n            Debes ingresar para poder utilizar "),
+                  _c("b", [_vm._v("CGrid")])
+                ]
+              )
+            ],
+            1
+          )
+        : [
             _c(
-              "p",
-              { staticClass: "text-center" },
+              "v-row",
               [
-                _c("v-icon", { attrs: { size: "200" } }, [
-                  _vm._v("mdi-google-controller-off")
+                _c("v-col", { attrs: { sm: "8" } }, [
+                  _c("p", { staticClass: "display-2" }, [
+                    _vm._v("\n                    Mis planes\n                ")
+                  ])
                 ]),
-                _c("br"),
                 _vm._v(" "),
                 _c(
-                  "span",
-                  { staticClass: "text--secondary font-weight-black" },
-                  [_vm._v("No disponible")]
+                  "v-col",
+                  [
+                    _c(
+                      "v-card",
+                      { attrs: { shaped: "" } },
+                      [
+                        this.$root.user
+                          ? _c("v-card-title", [
+                              _vm._v(
+                                "\n                        " +
+                                  _vm._s(this.$root.user.name) +
+                                  "\n                    "
+                              )
+                            ])
+                          : _vm._e()
+                      ],
+                      1
+                    )
+                  ],
+                  1
                 )
               ],
               1
-            ),
-            _vm._v(" "),
-            _c(
-              "v-alert",
-              {
-                staticClass: "mx-auto pr-10",
-                attrs: {
-                  icon: "mdi-exclamation-thick",
-                  prominent: "",
-                  border: "right",
-                  "max-width": "750px",
-                  "colored-border": "",
-                  color: "red",
-                  elevation: "4"
-                }
-              },
-              [
-                _vm._v("\n            Debes ingresar para poder utilizar "),
-                _c("b", [_vm._v("CGrid")])
-              ]
             )
-          ],
-          1
-        )
-      : _vm._e()
-  ])
+          ]
+    ],
+    2
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -20234,7 +20293,37 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("p", [_vm._v("adf")])
+  return _c(
+    "v-row",
+    [
+      _c(
+        "v-col",
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", [
+                _vm._v("\n                CGrid\n            ")
+              ]),
+              _vm._v(" "),
+              _c("v-card-subtitle", [
+                _vm._v("\n                Content Grid\n            ")
+              ]),
+              _vm._v(" "),
+              _c("v-card-text", [
+                _vm._v(
+                  "\n                CGrid es una parrilla de contenidos, herramienta de diseño enfocada en asistir al proceso de\n                planificación y despliegue de contenido audio-visual dirigido a redes sociales y otras\n                plataformas virtuales.\n            "
+                )
+              ])
+            ],
+            1
+          )
+        ],
+        1
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -77296,7 +77385,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   vuetify: _plugins_vuetify__WEBPACK_IMPORTED_MODULE_2__["default"],
   data: {
     user: null,
-    registerDialog: false,
+    registerDialog: true,
     validRegister: null,
     registerLoading: false,
     registerPassVisible: false,
@@ -77344,6 +77433,20 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     password_confirmation: function password_confirmation() {
       if (this.registerFields.password_confirmation != this.registerFields.password && this.registerFields.password_confirmation !== undefined) return 'No coincide';
       return null;
+    },
+    userInitials: function userInitials() {
+      return this.user.name.split(' ').map(function (name) {
+        return name[0];
+      }).slice(0, 2).join('');
+    },
+    avatarColor: function avatarColor() {
+      // User initials between AA and ZZ. weight: added value of the initials, A representing 0, and so on
+      var weight = this.userInitials.split('').reduce(function (total, initial) {
+        return total + initial.charCodeAt(0) - 65;
+      }, 0);
+      var decimal = Math.round(weight / 50 * 16777215); // 16⁶ - 1
+
+      return '#' + decimal.toString(16).padStart(6, '0');
     }
   },
   methods: {
@@ -77368,7 +77471,7 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
 
           _this2.$refs.registerForm.reset();
 
-          _this2.registerDialog = null;
+          _this2.registerDialog = false;
         })["catch"](function (error) {
           _this2.registerFields.password = _this2.registerFields.password_confirmation = null;
 
@@ -77658,6 +77761,7 @@ __webpack_require__.r(__webpack_exports__);
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuetify__WEBPACK_IMPORTED_MODULE_1___default.a);
 /* harmony default export */ __webpack_exports__["default"] = (new vuetify__WEBPACK_IMPORTED_MODULE_1___default.a({
+  //theme: { dark: true },
   icons: {
     iconfont: 'mdi' // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
 
