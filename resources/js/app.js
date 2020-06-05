@@ -8,6 +8,27 @@ Vue.use(VueRouter)
 
 import routes from './routes'
 
+window.fbAsyncInit = function() {
+    FB.init({
+        appId            : '876513946189146',
+        autoLogAppEvents : true,
+        xfbml            : false,
+        version          : 'v7.0',
+        status           : true
+    });
+
+    /*FB.login(function(response) {
+        if (response.authResponse) {
+            console.log('Welcome!  Fetching your information.... ');
+            FB.api('/me', function(response) {
+                console.log('Good to see you, ' + response.name + '.');
+            });
+        } else {
+            console.log('User cancelled login or did not fully authorize.');
+        }
+    });*/
+};
+
 const app = new Vue({
     el: '#app',
 
@@ -17,7 +38,7 @@ const app = new Vue({
     data: {
         user: null,
 
-        registerDialog: true,
+        registerDialog: false,
         validRegister: null,
         registerLoading: false,
         registerPassVisible: false,

@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>CGrid</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
 </head>
 <style>
     html {
@@ -14,12 +14,12 @@
     }
 
     .v-btn {
-        text-transform:none !important;
+        text-transform: none !important;
         letter-spacing: 0 !important;
     }
 
     .v-toolbar__content {
-        padding:0 !important;
+        padding: 0 !important;
     }
 
     .v-label {
@@ -29,8 +29,8 @@
 <body>
 <div id="app">
     <v-app>
-        <v-app-bar app dense color="purple" dark>
-            <v-toolbar-title class="mx-2">Mixture</v-toolbar-title>
+        <v-app-bar app dense color="purple" dark clipped-left>
+            <v-toolbar-title class="mx-2">Mixture | CTools</v-toolbar-title>
             <v-toolbar-items>
                 <v-btn text to="/">Inicio</v-btn>
                 <v-btn text to="/grids">CGrid</v-btn>
@@ -41,7 +41,7 @@
                 <v-avatar :color="avatarColor" size="35">
                     {{ userInitials }}
                 </v-avatar>
-                <v-btn class="mx-2"  @click="logout">Salir</v-btn>
+                <v-btn class="mx-2" @click="logout">Salir</v-btn>
             </template>
             <template v-else>
                 <v-dialog v-model="registerDialog" max-width="500" keydown overlay-opacity=".9">
@@ -60,19 +60,23 @@
                             <p class="mt-3 mb-0 text-center font-weight-bold">Ingresa con</p>
                             <v-row>
                                 <v-col cols="12" md="6">
-                                    <v-btn block height="48" class="pa-1 white--text" color="#f80019" rounded>
-                                        <v-avatar class="float-left" style="position:absolute;left:0" color="pa-2 white" size="40">
+                                    <v-btn block disabled height="48" class="pa-1 white--text" color="#f80019" rounded>
+                                        <v-avatar class="float-left" color="pa-2 white" size="40">
                                             <v-img src="/assets/google.png" contain></v-img>
                                         </v-avatar>
+                                        <v-spacer></v-spacer>
                                         Google
+                                        <v-spacer></v-spacer>
                                     </v-btn>
                                 </v-col>
                                 <v-col cols="12" md="6">
-                                    <v-btn block height="48" class="pa-1 white--text" color="#464498" rounded>
-                                        <v-avatar class="float-left" style="position:absolute;left:0" color="pa-2 white" size="40">
+                                    <v-btn block disabled height="48" class="pa-1 white--text" color="#464498" rounded>
+                                        <v-avatar class="float-left" color="pa-2 white" size="40">
                                             <v-img src="/assets/facebook.png" contain></v-img>
                                         </v-avatar>
+                                        <v-spacer></v-spacer>
                                         Facebook
+                                        <v-spacer></v-spacer>
                                     </v-btn>
                                 </v-col>
                             </v-row>
@@ -121,7 +125,9 @@
                                         <v-btn @click="registerDialog = false" class="error mt-3" block>Cancelar</v-btn>
                                     </v-col>
                                     <v-col cols="12" md="3">
-                                        <v-btn @click="register" class="purple float-right mt-3" dark block>Registrarse</v-btn>
+                                        <v-btn @click="register" class="purple float-right mt-3" dark block>
+                                            Registrarse
+                                        </v-btn>
                                     </v-col>
                                 </v-row>
                             </v-form>
@@ -145,26 +151,30 @@
                             <p class="mt-3 mb-0 text-center font-weight-bold">Ingresa con</p>
                             <v-row>
                                 <v-col cols="12" md="6">
-                                    <v-btn block height="48" class="pa-1 white--text" color="#f80019" rounded>
-                                        <v-avatar class="float-left" style="position:absolute;left:0" color="pa-2 white" size="40">
+                                    <v-btn block disabled height="48" class="pa-1 white--text" color="#f80019" rounded>
+                                        <v-avatar class="float-left" color="pa-2 white" size="40">
                                             <v-img src="/assets/google.png" contain></v-img>
                                         </v-avatar>
+                                        <v-spacer></v-spacer>
                                         Google
+                                        <v-spacer></v-spacer>
                                     </v-btn>
                                 </v-col>
                                 <v-col cols="12" md="6">
-                                    <v-btn block height="48" class="pa-1 white--text" color="#464498" rounded>
-                                        <v-avatar class="float-left" style="position:absolute;left:0" color="pa-2 white" size="40">
+                                    <v-btn block disabled height="48" class="pa-1 white--text" color="#464498" rounded>
+                                        <v-avatar class="float-left" color="pa-2 white" size="40">
                                             <v-img src="/assets/facebook.png" contain></v-img>
                                         </v-avatar>
+                                        <v-spacer></v-spacer>
                                         Facebook
+                                        <v-spacer></v-spacer>
                                     </v-btn>
                                 </v-col>
                             </v-row>
                             <p class="mt-5 mb-0 text-center font-weight-bold">Tu cuenta</p>
                             <v-form v-model="validLogin" ref="loginForm" class="pt-1">
                                 <v-text-field color="purple" v-model="loginFields.email"
-                                              :rules="loginNameRules"
+                                              :rules="loginNameRules" class="mt-0"
                                               label="Correo electrónico" required
                                               :error-messages="loginError"></v-text-field>
                                 <v-text-field color="purple" class="mt-0"
@@ -179,8 +189,15 @@
                                             v-model="loginFields.remember" type="checkbox"
                                             class="mx-auto mt-2"
                                             label="Recuérdame"></v-checkbox>
-                                <v-btn @click="loginDialog = false" class="error mt-2">Cancelar</v-btn>
-                                <v-btn @click="login" class="float-right purple mt-2" dark>Ingresar</v-btn>
+                                <v-row no-gutters class="justify-space-between">
+                                    <v-col cols="12" md="3">
+                                        <v-btn @click="loginDialog = false" block class="error mt-2">Cancelar</v-btn>
+                                    </v-col>
+                                    <v-col cols="12" md="3">
+                                        <v-btn @click="login" block class="float-right purple mt-2" dark>Ingresar
+                                        </v-btn>
+                                    </v-col>
+                                </v-row>
                             </v-form>
                         </v-card-text>
                     </v-card>
@@ -190,12 +207,11 @@
         </v-app-bar>
 
         <v-content>
-            <v-container>
-                <router-view></router-view>
-            </v-container>
+            <router-view></router-view>
         </v-content>
     </v-app>
 </div>
 <script src="../js/app.js"></script>
+<script async defer src="https://connect.facebook.net/es_LA/sdk/debug.js"></script>
 </body>
 </html>

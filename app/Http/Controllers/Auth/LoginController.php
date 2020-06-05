@@ -37,4 +37,17 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    /*public function facebook()
+    {
+        $fb = new \Facebook\Facebook([
+            'app_id' => '876513946189146',
+            'app_secret' => '5dcf55c4294494353b32563b1a3d92b6',
+            'default_graph_version' => 'v7.0',
+        ]);
+
+        $helper = $fb->getRedirectLoginHelper();
+        $permissions = ['email'];
+        $helper->getAccessToken()
+    }*/
 }
