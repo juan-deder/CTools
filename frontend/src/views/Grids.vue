@@ -1,15 +1,15 @@
 <template>
     <div>
-        <div v-if="this.$root.user">
-            <v-navigation-drawer app clipped permanent dark src="/assets/purple.png">
+        <div v-if="this.$store.state.user">
+            <v-navigation-drawer app clipped permanent dark src="@/assets/purple.png">
                 <v-list dense nav class="py-0" style="background: rgba(0, 0, 0, .3)">
                     <v-list-item two-line class="px-0">
-                        <v-list-item-avatar class="white--text" :color="this.$root.avatarColor">
-                            {{ this.$root.userInitials }}
+                        <v-list-item-avatar class="white--text" :color="this.$store.state.user.profile_image">
+                            {{ this.$store.getters.nameInitials }}
                         </v-list-item-avatar>
                         <v-list-item-content>
-                            <v-list-item-title class="body-1">{{ this.$root.user.name }}</v-list-item-title>
-                            <v-list-item-subtitle>{{ this.$root.user.last_name }}</v-list-item-subtitle>
+                            <v-list-item-title class="body-1">{{ this.$store.state.user.name }}</v-list-item-title>
+                            <v-list-item-subtitle>{{ this.$store.state.user.last_name }}</v-list-item-subtitle>
                         </v-list-item-content>
                     </v-list-item>
                 </v-list>
@@ -26,12 +26,16 @@
                             <template v-slot:activator>
                                 <v-list-item-title>Mis planes</v-list-item-title>
                                 <span class="caption">2</span>
-                                <v-list-item-icon><v-icon>mdi-account-cowboy-hat</v-icon></v-list-item-icon>
+                                <v-list-item-icon>
+                                    <v-icon>mdi-account-cowboy-hat</v-icon>
+                                </v-list-item-icon>
                             </template>
 
                             <v-list-item>
                                 <v-list-item-title>Home</v-list-item-title>
-                                <v-list-item-icon><v-icon>mdi-home</v-icon></v-list-item-icon>
+                                <v-list-item-icon>
+                                    <v-icon>mdi-home</v-icon>
+                                </v-list-item-icon>
                             </v-list-item>
                         </v-list-group>
 
@@ -39,34 +43,49 @@
                             <template v-slot:activator>
                                 <v-list-item-title>Compartidos<br>conmigo</v-list-item-title>
                                 <span class="caption">2</span>
-                                <v-list-item-icon><v-icon>mdi-account-group-outline</v-icon></v-list-item-icon>
+                                <v-list-item-icon>
+                                    <v-icon>mdi-account-group-outline</v-icon>
+                                </v-list-item-icon>
                             </template>
 
                             <v-list-item>
                                 <v-list-item-title>Home</v-list-item-title>
-                                <v-list-item-icon><v-icon>mdi-home</v-icon></v-list-item-icon>
+                                <v-list-item-icon>
+                                    <v-icon>mdi-home</v-icon>
+                                </v-list-item-icon>
                             </v-list-item>
                         </v-list-group>
                     </v-list-group>
                 </v-list>
 
                 <v-list dense nav style="position:absolute;bottom:0;width:100%;">
-                    <v-list-group prepend-icon="mdi-cog" style="background:rgba(255,255,255,.1)" class="pb-1">
+                    <v-list-group sub-group value="true" prepend-icon="mdi-cog" style="background:rgba(255,255,255,.1)">
                         <template v-slot:activator>
                             <v-list-item-title>Preferencias</v-list-item-title>
                         </template>
-                        <v-list-item>
-                            <v-list-item-title>Home</v-list-item-title>
-                            <v-icon>mdi-home</v-icon>
-                        </v-list-item>
-                        <v-list-item link @click="dark = !dark" class="ma-2 mb-1">
-                            <v-list-item-icon>
-                                <v-icon>{{ themeIcon }}</v-icon>
-                            </v-list-item-icon>
-                            <v-list-item-title>
-                                <v-switch v-model="dark" height="0" dense :loading="themeLoading" readonly></v-switch>
-                            </v-list-item-title>
-                        </v-list-item>
+
+                        <v-list subheader nav dense rounded>
+                            <v-list-item class="pl-2">
+                                <v-list-item-title>Home</v-list-item-title>
+                                <v-icon>mdi-home</v-icon>
+                            </v-list-item>
+                            <v-list-item link @click="dark = !dark" class="pr-0 pl-2">
+                                <v-list-item-icon>
+                                    <v-icon>{{ themeIcon }}</v-icon>
+                                </v-list-item-icon>
+                                <v-list-item-content style="border-radius:4px" class="pl-2 py-0"
+                                                     :class="dark ? 'grey darken-4' : 'white'">
+                                    <v-list-item-subtitle class="d-flex" :class="dark ? ' white--text' : 'black--text'"
+                                                          style="flex-basis:content;">
+                                        Tema: <b>{{ dark ? 'Dark' : 'Light' }}</b>
+                                    </v-list-item-subtitle>
+                                    <v-switch background-color="red" v-model="dark" height="0" dense
+                                              :loading="themeLoading"
+                                              readonly>
+                                    </v-switch>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </v-list>
                     </v-list-group>
                 </v-list>
             </v-navigation-drawer>
@@ -101,13 +120,13 @@
     export default {
         data() {
             return {
-                dark: this.$root.$vuetify.theme.dark,
+                dark: this.$vuetify.theme.dark,
                 themeLoading: false,
                 themeIcon: null,
             }
         },
         created() {
-           this.themeIcon = this.getIcon()
+            this.themeIcon = this.getIcon()
         },
         methods: {
             getIcon() {
