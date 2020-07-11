@@ -15,9 +15,9 @@ class CreateGridsTable extends Migration
     {
         Schema::create('grids', function (Blueprint $table) {
             $table->id();
-            $table->string('org_name');
+            $table->string('name');
+            $table->boolean('active')->default(1);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -28,6 +28,8 @@ class CreateGridsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('grids');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

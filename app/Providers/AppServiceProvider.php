@@ -13,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        \Laravel\Sanctum\Sanctum::ignoreMigrations();
     }
 
     /**
@@ -24,5 +24,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         \Laravel\Sanctum\Sanctum::ignoreMigrations();
+
+        \App\User::observe(\App\Observers\UserObserver::class);
+
+        \Illuminate\Http\Resources\Json\JsonResource::withoutWrapping();
     }
 }

@@ -2,12 +2,9 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model as BaseModel;
-use Illuminate\Database\Eloquent\SoftDeletes;
+    use Illuminate\Database\Eloquent\Model as BaseModel;
 
-class Model extends BaseModel
+    class Model extends BaseModel
 {
-    use SoftDeletes;
-
-    protected $hidden = ['created_at', 'updated_at', 'deleted_at'];
+    protected $hidden = ['created_at', 'updated_at'];
 }

@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'cgrid,localhost')),
+    'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', 'ctools.mixture.com.co')),
 
     /*
     |--------------------------------------------------------------------------

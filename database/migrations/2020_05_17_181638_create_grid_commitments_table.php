@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGridCommitmentTable extends Migration
+class CreateGridCommitmentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateGridCommitmentTable extends Migration
      */
     public function up()
     {
-        Schema::create('grid_commitment', function (Blueprint $table) {
-            $table->foreignId('grid_id')->constrained();
-            $table->foreignId('user_id')->constrained();
-            $table->set('roles', ['creator', 'approver'])->default('creator');
+        Schema::create('grid_commitments', function (Blueprint $table) {
+            $table->foreignId('grid_id')->constrained()->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->set('roles', ['owner', 'approver', 'editor', 'observer'])->default('owner');
             $table->unique(['grid_id', 'user_id']);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

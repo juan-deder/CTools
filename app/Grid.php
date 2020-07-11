@@ -5,19 +5,27 @@ namespace App;
 class Grid extends Model
 {
     protected $guarded = [];
+    protected $hidden = ['updated_at'];
+    protected $casts = ['active' => 'boolean'];
 
-    public function getRouteKeyName()
+    public function committers()
     {
-        return 'name';
+        return $this->belongsToMany(User::class, 'grid_commitments')->as('commitment')->withPivot('roles')->withTimestamps();
     }
 
-    public function contents()
+    public function addCommitters($committers)
     {
-        return  $this->hasMany(\App\Content::class);
+        $this->committers()->attach($committers);
     }
 
-    public function commiters()
+    public function removeCommitters($committers)
     {
-        return $this->belongsToMany(User::class, 'grid_commitment')->as('commitment')->withPivot('roles');
+        $committers = (array) $committers;
+        $this->committers()->detach($committers);
+    }
+
+    public function updateCommitterRoles(int $id, String $roles)
+    {
+        $this->committers()->updateExistingPivot($id, ['roles' => $roles]);
     }
 }

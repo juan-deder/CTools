@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('user', 'UserController@authed')->middleware('auth');
+Route::get('users/committers', 'UserController@committers')->middleware('auth');
 
 Route::namespace('Auth')->group(function () {
     Route::post('register', 'RegisterController@register');
@@ -24,6 +22,12 @@ Route::namespace('Auth')->group(function () {
     Route::post('logout', 'LoginController@logout');
     Route::post('verify', 'VerificationController@verify')->name('verification.verify');
     Route::post('resend', 'VerificationController@resend');
+
+    Route::get('login/facebook', 'LoginController@facebook');
 });
 
-Route::get('grids', function () { return factory(\App\User::class, 3)->make(); })->middleware('auth');
+Route::apiResource('grids', 'GridController')->middleware('auth');
+
+Route::post('commitments/{grid}', 'GridCommitmentController@store')->middleware('auth');
+Route::put('commitments/{grid}', 'GridCommitmentController@update')->middleware('auth');
+Route::delete('commitments/{grid}', 'GridCommitmentController@destroy')->middleware('auth');

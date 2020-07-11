@@ -3,20 +3,22 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Grid;
+use App\User;
 use Faker\Generator as Faker;
+use Illuminate\Support\Collection;
 
 $factory->define(Grid::class, function (Faker $faker) {
     return [
-        'org_name' => $faker->company,
+        'name' => $faker->word,
     ];
 });
 
 $factory->afterCreatingState(\App\Grid::class, 'with_committers', function ($grid, $faker) {
-    $users = factory(\App\User::class, 3)->create();
+    $users = ($existing = User::all())->isNotEmpty() ? $existing : factory(\App\User::class, 3)->create();
 
-    $roles = $users->pluck('id')->combine(\Illuminate\Support\Collection::times(3, function () use ($faker) {
-        return ['roles' => implode(',', $faker->randomElements(['creator', 'approver'], rand(1, 2), false))];
-    }));
+    $roles = $users->pluck('id')->combine(Collection::times(3, fn () =>
+        ['roles' => ['owner', implode(',', $faker->randomElements(['approver', 'editor', 'observer'], rand(1, 3), false))][rand(0, 1)]]
+    ));
 
-    $grid->commiters()->attach($roles);
+    $grid->committers()->attach($roles);
 });

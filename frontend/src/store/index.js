@@ -7,16 +7,17 @@ export default new Vuex.Store({
     state: {
         user: null
     },
-    getters: {
-        nameInitials (state) {
-            return state.user.name.split(' ').map((name) => name[0]).join('')
-        }
-    },
+    getters: {},
     mutations: {
         setUser(state, user) {
             state.user = user
+        }
+    },
+    actions: {
+        logout() {
+            axios.post('https://ctools.mixture.com.co/api/logout')
+                .then(() => this.commit('setUser', null))
         },
     },
-    actions: {},
     modules: {}
 })

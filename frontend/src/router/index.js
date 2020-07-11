@@ -21,6 +21,13 @@ Vue.use(VueRouter)
     },
   },
   {
+    path: '/Posts/:grid',
+    name: 'Posts',
+    component: function () {
+      return import(/* webpackChunkName: "about" */ '../views/Posts.vue')
+    },
+  },
+  {
     path: '/PrivaCyPolicy',
     name: 'PrivaCyPolicy',
     component: function () {

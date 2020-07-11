@@ -17,13 +17,16 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('last_name');
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->enum('federated_by', ['google', 'facebook'])->nullable();
+            $table->unsignedBigInteger('federated_id')->nullable();
             $table->timestamps();
-            $table->softDeletes();
         });
+
+        DB::statement("alter table users add profile_image mediumblob");
     }
 
     /**
@@ -33,6 +36,8 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('users');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }
