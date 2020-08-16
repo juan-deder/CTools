@@ -181,6 +181,19 @@
                      colored-border color="red" elevation="4">
                 Debes ingresar para poder utilizar <b>CGrid</b>
             </v-alert>
+            <v-card flat max-width="800px" class="mx-auto text-center">
+                <v-card-title>
+                    CGrid
+                </v-card-title>
+                <v-card-subtitle>
+                    Content Grid
+                </v-card-subtitle>
+                <v-card-text>
+                    CGrid es una parrilla de contenidos, herramienta de diseño enfocada en asistir al proceso de
+                    planificación y despliegue de contenido audio-visual dirigido a redes sociales y otras
+                    plataformas virtuales.
+                </v-card-text>
+            </v-card>
         </div>
 
     </div>
